@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Strategy | Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F2F2F2;
+            --accent-orange: #FF6B4A;
+            --text-main: #1A1A1A;
+            --accent-glow: linear-gradient(120deg, #FF8C61, #FF9A9E, #F4D03F);
+        }
+
+        /* 全站粗粒感濾鏡 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        body {
+            background: var(--bg-color);
+            font-family: 'Helvetica Neue', Arial, 'Noto Sans TC', sans-serif;
+            margin: 0;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .back-nav {
+            padding: 3rem 5%;
+        }
+
+        .back-nav a {
+            text-decoration: none;
+            color: var(--accent-orange);
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .header {
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            margin: 0;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        /* 微醺光暈效果 */
+        .glow-hint {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent-glow);
+            filter: blur(80px);
+            opacity: 0.2;
+            top: -50px;
+            right: 0;
+            z-index: -1;
+        }
+
+        .description {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin: 4rem 0 6rem;
+            border-top: 1px solid #ddd;
+            padding-top: 2rem;
+        }
+
+        .description h3 {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 1.2rem;
+        }
+
+        .description p {
+            color: #555;
+        }
+
+        .description ul {
+            padding-left: 1.2rem;
+            color: #555;
+        }
+
+        .description li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- 瀑布流作品牆：解決素材過多且不壓縮 --- */
+        .work-wall {
+            column-count: 3;
+            /* 分成三欄 */
+            column-gap: 20px;
+            margin-bottom: 8rem;
+        }
+
+        .wall-item {
+            break-inside: avoid;
+            /* 防止圖片被跨欄切斷 */
+            margin-bottom: 20px;
+            background: #fff;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            /* 讓 <a> 撐開 */
+            transition: transform 0.4s ease;
+        }
+
+        .wall-item img {
+            width: 100%;
+            height: auto;
+            /* 高度自動，保證不壓縮 */
+            display: block;
+            transition: filter 0.4s ease;
+        }
+
+        .wall-item:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 懸停時的簡單外連提示 */
+        .item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 107, 74, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .wall-item:hover .item-overlay {
+            opacity: 1;
+            backdrop-filter: blur(2px);
+        }
+
+        /* --- Footer & Back to Top --- */
+        footer {
+            padding: 6rem 5%;
+            background: #111;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .back-to-top {
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .back-to-top .arrow {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-top:hover .arrow {
+            transform: translateY(-8px);
+            color: var(--accent-orange);
+        }
+
+        @media (max-width: 900px) {
+            .work-wall {
+                column-count: 2;
+            }
+
+            .description {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .header h1 {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="back-nav">
+        <a href="index.html">← BACK TO OVERVIEW</a>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <div class="glow-hint"></div>
+            <p style="color: #FF6B4A; font-weight: bold; margin-bottom: 1rem; letter-spacing: 0.2em;" class="uppercase">
+                Social Media Strategy</p>
+            <h1>Connecting People<br>Through Content.</h1>
+        </header>
+
+        <section class="description">
+            <div>
+                <h3>Core Concept / 核心目標</h3>
+                <p>在資訊碎片化的時代，社群不再只是發布圖片，而是透過精準的內容企劃，在受眾心中建立品牌印記。以三位一體的內容佈局：視覺美學、短影音互動與產品深度教育。</p>
+            </div>
+            <div>
+                <h3>Execution / 執行策略</h3>
+                <ul>
+                    <li><b>視覺風格建立：</b> 導入網格化排版，強化品牌色彩識別度。</li>
+                    <li><b>短影音互動：</b> 透過 9:16 高飽和度影片捕捉第一秒感官瞬間。</li>
+                    <li><b>數據導向優化：</b> 整合後台觸及數據，精準佈局行銷漏斗。</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="work-wall">
+            <a href="#" target="_blank" class="wall-item">
+                <img src="images/M1.jpg" alt="Reels 企劃">
+                <div class="item-overlay"><span style="color:#fff; font-weight:bold;">VIEW ON IG ↗</span></div>
+            </a>
+            <a href="#" target="_blank" class="wall-item">
+                <img src="images/M2.jpg" alt="Reels 企劃">
+                <div class="item-overlay"><span style="color:#fff; font-weight:bold;">VIEW ON IG ↗</span></div>
+            </a>
+            <a href="#" target="_blank" class="wall-item">
+                <img src="images/M3.jpg" alt="Reels 企劃">
+                <div class="item-overlay"><span style="color:#fff; font-weight:bold;">VIEW ON IG ↗</span></div>
+            </a>
+            <a href="#" target="_blank" class="wall-item">
+                <img src="images/M4.jpg" alt="Reels 企劃">
+                <div class="item-overlay"><span style="color:#fff; font-weight:bold;">VIEW ON IG ↗</span></div>
+            </a>
+            <a href="#" class="wall-item">
+                <img src="images/IG 1.png" alt="社群排版示意">
+            </a>
+
+            <a href="#" class="wall-item">
+                <img src="images/IG 1-1.png" alt="產品介紹圖">
+            </a>
+
+            <a href="#" class="wall-item">
+                <img src="images/IG 2.png" alt="社群排版示意">
+            </a>
+
+            <a href="#" class="wall-item">
+                <img src="images/IG 2-2.png" alt="產品介紹圖">
+            </a>
+
+            <a href="#" class="wall-item">
+                <img src="images/AD 1.jpg" alt="廣告投放視覺設計">
+            </a>
+
+            <a href="#" class="wall-item">
+                <img src="images/AD2.jpg" alt="廣告投放視覺設計">
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-info">
+            <h2 class="uppercase">Let's Create<br>Something Great.</h2>
+            <p style="opacity: 0.5;">© 2025 PORTFOLIO. ALL RIGHTS RESERVED.</p>
+        </div>
+
+        <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+            <span class="arrow">↑</span>
+            <span>Back to Top</span>
+        </div>
+    </footer>
+
+</body>
+
+</html>
