@@ -15,6 +15,56 @@
         .color-circle { width: 50px; height: 50px; border-radius: 50%; border: 1px solid #fff; }
         
         .label { font-size: 0.7rem; color: #C1A376; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem; }
+           /* --- Footer & Back to Top --- */
+        footer {
+            padding: 6rem 5%;
+            background: #111;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .footer-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .back-to-top {
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .back-to-top .arrow {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-top:hover .arrow {
+            transform: translateY(-8px);
+            color: var(--accent-orange);
+        }
+
+        @media (max-width: 900px) {
+            .work-wall {
+                column-count: 2;
+            }
+
+            .description {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .header h1 {
+                font-size: 2.8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -46,6 +96,18 @@
             </div>
         </div>
     </div>
+        <footer>
+        <div class="footer-info">
+            <h2 class="uppercase">Let's Create<br>Something Great.</h2>
+            <p style="opacity: 0.5;">© 2025 PORTFOLIO. ALL RIGHTS RESERVED.</p>
+        </div>
+
+        <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+            <span class="arrow">↑</span>
+            <span>Back to Top</span>
+        </div>
+    </footer>
     
 </body>
 </html>
+
