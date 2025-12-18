@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTFOLIO | STRATEGY & DESIGN</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Noto+Serif+TC:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- 1. 全域變數 & 基礎設定 --- */
+        :root {
+            /* 基底色調 */
+            --bg-color: #F2F2F2;
+            --text-main: #1A1A1A;
+            --text-sub: #555555;
+
+            /* 品牌色調：橘紅微醺 */
+            --accent-orange: #FF6B4A;
+            --accent-glow: linear-gradient(120deg, #FF8C61, #FF9A9E, #F4D03F);
+
+            /* CIS 專用色調 (山炙本味) */
+            --cis-gold: #C1A376;
+            --cis-black: #2C2A29;
+            --cis-paper: #F4F1EA;
+
+            /* 字體設定 */
+            --font-stack: 'Helvetica Neue', Arial, 'Noto Sans TC', sans-serif;
+            --font-serif: 'Noto Serif TC', serif;
+
+            --nav-height: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        /* --- 2. 視覺特效：全站粗粒感 (Grainy Texture) --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            /* 調整雜訊強度 */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* 文字設定：Swiss Style */
+        .uppercase {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        /* --- 3. Navigation 導覽列 --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            background: rgba(242, 242, 242, 0.85);
+            backdrop-filter: blur(12px);
+            /* 毛玻璃 */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent-orange);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- 4. Hero Section --- */
+        #home {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10%;
+            padding-top: var(--nav-height);
+        }
+
+        /* 背景流動光暈 */
+        .glow-blob {
+            position: absolute;
+            width: 55vw;
+            height: 55vw;
+            background: var(--accent-glow);
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.35;
+            top: 5%;
+            right: -15%;
+            z-index: -1;
+            animation: float 12s infinite alternate ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-40px, 60px);
+            }
+        }
+
+        .hero-title {
+            font-size: 5vw;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .hero-subtitle {
+            border-left: 3px solid var(--accent-orange);
+            padding-left: 1.5rem;
+            color: var(--text-sub);
+        }
+
+        /* --- 5. Philosophy (About) --- */
+        #about {
+            padding: 6rem 10%;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            opacity: 0.7;
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 0.05rem;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* --- 6. Featured Case (山炙本味 CIS) --- */
+        #featured {
+            width: 100%;
+            background-color: var(--cis-black);
+            /* 深色背景 */
+            color: var(--cis-paper);
+            position: relative;
+            padding: 0;
+            /* 滿版 */
+        }
+
+        /* 模擬和紙紋理 */
+        #featured::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .cis-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 5%;
+        }
+
+        .cis-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid rgba(193, 163, 118, 0.3);
+            padding-bottom: 1rem;
+        }
+
+        .cis-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1.5fr;
+            /* 1:2:1.5 黃金比例 */
+            gap: 2rem;
+            border: 1px solid rgba(193, 163, 118, 0.3);
+            padding: 3rem;
+            position: relative;
+        }
+
+        /* 左側：直式排版 */
+        .cis-concept {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid rgba(193, 163, 118, 0.3);
+            padding-right: 2rem;
+        }
+
+        .vertical-txt h2 {
+            writing-mode: vertical-rl;
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            letter-spacing: 0.5rem;
+            color: var(--cis-gold);
+            margin: 0;
+        }
+
+        .vertical-txt p {
+            writing-mode: vertical-rl;
+            font-family: var(--font-serif);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* 中間：CSS 繪圖 */
+        .cis-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 300px;
+        }
+
+        .mountain-graphic {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, transparent 50%, var(--cis-gold) 50%);
+            opacity: 0.9;
+            transform: rotate(45deg);
+            margin-bottom: -30px;
+            z-index: 1;
+        }
+
+        .circle-sun {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border: 1px solid var(--cis-gold);
+            border-radius: 50%;
+            opacity: 0.3;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%);
+        }
+
+        .main-logo-text {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            margin: 0;
+            z-index: 2;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.5rem;
+        }
+
+        /* 右側：規範系統 */
+        .cis-system {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding-left: 2rem;
+            border-left: 1px solid rgba(193, 163, 118, 0.3);
+        }
+
+        .sys-label {
+            font-size: 0.7rem;
+            color: var(--cis-gold);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .swatch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .swatch:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .swatch::before {
+            content: '';
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .swatch.gold::before {
+            background: var(--cis-gold);
+            box-shadow: 0 0 8px var(--cis-gold);
+        }
+
+        .swatch.charcoal::before {
+            background: var(--cis-black);
+            border: 1px solid #555;
+        }
+
+        .swatch.paper::before {
+            background: var(--cis-paper);
+        }
+
+        /* --- 7. Projects Grid (其他作品) --- */
+        #projects {
+            padding: 8rem 10%;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .project-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            transition: 0.4s;
+        }
+
+        .img-holder {
+            width: 100%;
+            aspect-ratio: 3/2;
+            background: #ddd;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .img-holder::after {
+            content: "VIEW DETAILS →";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 107, 74, 0.9);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .project-link:hover .img-holder::after {
+            opacity: 1;
+        }
+
+        .project-link:hover .img-holder {
+            transform: translateY(-10px);
+        }
+
+        /* --- 8. Contact --- */
+        #contact {
+            padding: 8rem 10%;
+            background: #151515;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #contact::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, #FF6B4A 0%, transparent 60%);
+            opacity: 0.2;
+            filter: blur(80px);
+        }
+
+        .contact-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .email-link {
+            display: inline-block;
+            font-size: 2rem;
+            color: #fff;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .email-link:hover {
+            color: var(--accent-orange);
+            border-color: var(--accent-orange);
+        }
+
+        /* RWD */
+        @media (max-width: 900px) {
+            .cis-container {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+                border: none;
+            }
+
+            .cis-concept,
+            .cis-visual,
+            .cis-system {
+                border: none;
+                padding: 0;
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+
+            .vertical-txt h2,
+            .vertical-txt p {
+                writing-mode: horizontal-tb;
+            }
+
+            .cis-system {
+                padding-left: 0;
+                border-top: 1px solid #333;
+                padding-top: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 3.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* 手機版隱藏選單 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo uppercase">SUN YI CHING</div>
+        <div class="nav-links uppercase">
+            <a href="#about">About</a>
+            <a href="#featured">Featured</a>
+            <a href="#projects">Works</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <header id="home">
+        <div class="glow-blob"></div>
+        <h1 class="hero-title uppercase">
+            Design As<br>Communication.
+        </h1>
+        <div class="hero-subtitle">
+            <h3 class="uppercase" style="color: var(--text-main);">Problem Solving</h3>
+            <p style="margin: 0.5rem 0 0;">好的設計不僅是為了美觀，更是為了解決問題。</p>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="section-label uppercase">讓創意在細節中發光</div>
+        <div class="about-content">
+            <h3>Bridging Strategy & Aesthetics.</h3>
+            <p>
+                我是一名數位行銷人，也是視覺設計師。我擅長運用數據洞察制定策略，並透過設計語言將其轉化為具體的視覺成果。
+                在這個資訊爆炸的時代，我相信「清晰」與「連結」是品牌最寶貴的資產。
+            </p>
+            <p>從概念到執行，結合創意與邏輯，打造有影響力的內容，讓每個設計與策略都直達目標。</p>
+            <div class="skill-tags uppercase">
+                <span class="tag">Brand Strategy</span>
+                <span class="tag">Visual Identity</span>
+                <span class="tag">Social Media</span>
+                <span class="tag">Web Design</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="featured">
+        <div class="cis-wrapper">
+            <div class="cis-header">
+                <span class="uppercase" style="color:var(--cis-gold);">Selected Case</span>
+                <span style="color: #666; font-size: 0.9rem;">2024 / Branding</span>
+            </div>
+
+            <div class="cis-container">
+
+                <div class="cis-concept">
+                    <div class="vertical-txt">
+                        <h2>職<br>人<br>炙<br>燒</h2>
+                        <p>一拆立即滿足肉慾，無負擔的一口力量</p>
+                    </div>
+                    <div class="uppercase"
+                        style="font-size: 0.8rem; letter-spacing: 0.2rem; opacity: 0.5; margin-top: auto;">
+                        Shan Zhi<br>Originals
+                    </div>
+                </div>
+
+                <div class="cis-visual">
+                    <div class="mountain-graphic"></div>
+                    <div class="circle-sun"></div>
+                    <h1 class="main-logo-text">山炙本味</h1>
+                </div>
+
+                <div class="cis-system">
+                    <div
+                        style="border-bottom: 1px solid rgba(193, 163, 118, 0.3); padding-bottom: 0.5rem; color: var(--cis-gold); font-size: 0.8rem;">
+                        <span class="uppercase">Identity System</span>
+                    </div>
+
+                    <div>
+                        <p class="sys-label">COLOR PALETTE</p>
+                        <div class="swatch gold">
+                            <span style="font-size:0.9rem;">Gold</span><code
+                                style="opacity:0.5; font-size:0.8rem;">#C1A376</code>
+                        </div>
+                        <div class="swatch charcoal">
+                            <span style="font-size:0.9rem;">Sumi</span><code
+                                style="opacity:0.5; font-size:0.8rem;">#2C2A29</code>
+                        </div>
+                        <div class="swatch paper">
+                            <span style="font-size:0.9rem;">Paper</span><code
+                                style="opacity:0.5; font-size:0.8rem;">#F4F1EA</code>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="sys-label">TYPOGRAPHY</p>
+                        <div style="font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.4;">
+                            <span style="font-weight: 700;">Noto Serif TC Bold</span><br>
+                            <span style="font-weight: 400; font-size: 0.9rem;">Thinking about the origin of
+                                taste.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: right; color: rgba(255,255,255,0.3); font-size: 0.8rem; margin-top: 1rem;">
+                * Coded with CSS Grid & Flexbox
+            </p>
+        </div>
+    </section>
+
+ <section id="projects">
+        <h2 class="uppercase" style="border-bottom: 2px solid #000; padding-bottom: 1rem;">Selected Works</h2>
+        
+        <div class="grid-container">
+            <a href="social-detail.html" class="project-link">
+                <div class="img-holder" style="background: #fdf2f2;">
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #FF6B4A;">SOCIAL MEDIA STRATEGY</div>
+                </div>
+                <h4 class="uppercase">社群行銷策略</h4>
+                <p style="font-size: 0.8rem; color: #777;">短影音企劃 / IG視覺排版 / 內容策略</p>
+            </a>
+
+            <a href="Commercial Advertising.html" class="project-link">
+                <div class="img-holder" style="background: #eee;">
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #555;">COMMERCIAL ADVERTISING</div>
+                </div>
+                <h4 class="uppercase">商業視覺設計</h4>
+                <p style="font-size: 0.8rem; color: #777;">戶外廣告燈箱 / 公車廣告 / 印刷物設計</p>
+            </a>
+
+            <a href="branding-detail.html" class="project-link">
+                <div class="img-holder" style="background: #2C2A29;">
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #C1A376;">BRAND IDENTITY</div>
+                </div>
+                <h4 class="uppercase">品牌識別系統</h4>
+                <p style="font-size: 0.8rem; color: #777;">Logo 設計 / CIS 規範 / 品牌轉型規劃</p>
+            </a>
+            
+            <a href="exhibition-detail.html" class="project-link">
+                <div class="img-holder" style="background: #fff; border: 1px solid #ddd;">
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #999;">OTHERS</div>
+                </div>
+                <h4 class="uppercase">其他創意專案</h4>
+                <p style="font-size: 0.8rem; color: #777;">展場視覺 / 禮盒包裝 / 攝影企劃</p>
+            </a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="contact-content">
+            <p class="uppercase" style="letter-spacing: 0.2rem; opacity: 0.7;">Get in Touch</p>
+            <h2 style="font-size: 3rem; margin-bottom: 2rem; line-height: 1.2;" class="uppercase">
+                Have an idea?<br>Let's build it together.
+            </h2>
+
+            <a href="mailto:yourname@example.com" class="email-link">yourname@example.com</a>
+
+            <div style="margin-top: 4rem; display: flex; gap: 2rem; font-size: 0.9rem; opacity: 0.6;" class="uppercase">
+                <a href="#">Instagram</a>
+                <a href="#">LinkedIn</a>
+                <a href="#">Behance</a>
+            </div>
+
+            <p style="margin-top: 4rem; font-size: 0.8rem; opacity: 0.3;">
+                © 2025 PORTFOLIO. DESIGNED & CODED BY YOU.
+            </p>
+        </div>
+    </section>
+
+</body>
+
+</html>
