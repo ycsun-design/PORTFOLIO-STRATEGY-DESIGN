@@ -1,105 +1,504 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brand Identity System | Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #2C2A29; color: #F4F1EA; font-family: 'Noto Serif TC', serif; margin: 0; }
-        .back-nav { padding: 3rem 5%; }
-        .back-nav a { text-decoration: none; color: #C1A376; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 5% 10rem; }
-        
-        .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 4rem; }
-        .logo-box { width: 100%; aspect-ratio: 1/1; border: 1px solid rgba(193,163,118,0.3); display: flex; justify-content: center; align-items: center; }
-        .color-circle { width: 50px; height: 50px; border-radius: 50%; border: 1px solid #fff; }
-        
-        .label { font-size: 0.7rem; color: #C1A376; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1rem; }
-           /* --- Footer & Back to Top --- */
-        footer {
-            padding: 6rem 5%;
-            background: #111;
-            color: #fff;
+        :root {
+            --cis-black: #2C2A29;
+            --cis-gold: #C1A376;
+            --cis-paper: #F4F1EA;
+            --font-serif: 'Noto Serif TC', serif;
+        }
+
+        body {
+            background: #2C2A29;
+            color: #F4F1EA;
+            font-family: var(--font-serif);
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* --- Navigation --- */
+        .back-nav {
+            padding: 3rem 5%;
+        }
+
+        .back-nav a {
+            text-decoration: none;
+            color: #C1A376;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 5% 10rem;
+        }
+
+        /* --- Featured Case Section (Based on Image) --- */
+        #featured {
+            width: 100%;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .cis-wrapper {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Line: SELECTED CASE ------ Branding */
+        .cis-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-        }
-
-        .footer-info h2 {
-            font-size: 2.5rem;
             margin-bottom: 2rem;
-            letter-spacing: 0.1em;
+            border-bottom: 1px solid rgba(193, 163, 118, 0.3);
+            padding-bottom: 1rem;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
         }
 
-        .back-to-top {
-            cursor: pointer;
-            text-align: center;
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
+        .header-title {
+            color: var(--cis-gold);
             text-transform: uppercase;
         }
 
-        .back-to-top .arrow {
-            display: block;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            transition: transform 0.3s ease;
+        .header-tag {
+            color: rgba(255, 255, 255, 0.4);
         }
 
+        /* Main Box Container */
+        .cis-container {
+            border: 1px solid rgba(193, 163, 118, 0.3);
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            /* 左 中 右 比例 */
+            gap: 2rem;
+            min-height: 500px;
+            position: relative;
+        }
+
+        /* 左欄：直排文字 */
+        .cis-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid rgba(193, 163, 118, 0.2);
+            padding-right: 2rem;
+        }
+
+        .vertical-text-group {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .main-vertical {
+            writing-mode: vertical-rl;
+            font-size: 2.2rem;
+            letter-spacing: 0.8rem;
+            color: var(--cis-gold);
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .sub-vertical {
+            writing-mode: vertical-rl;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            color: rgba(244, 241, 234, 0.7);
+            line-height: 1.5;
+            margin-top: 0.5rem;
+        }
+
+        .brand-eng {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+        }
+
+        /* 中欄：Logo 圖形 */
+        .cis-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .graphic-wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        /* 圓形外框 */
+        .circle-outline {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        /* 倒三角形 */
+        .triangle-down {
+            width: 120px;
+            height: 100px;
+            background: var(--cis-gold);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            opacity: 0.9;
+            margin-top: 20px;
+            /* 視覺微調位置 */
+        }
+
+        .logo-text-center {
+            font-size: 3rem;
+            letter-spacing: 0.2em;
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 右欄：規範系統 */
+        .cis-right {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            padding-left: 2rem;
+            /* 與圖中類似，不需要左邊框，靠 grid gap 分隔 */
+        }
+
+        .sys-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sys-title {
+            font-size: 0.7rem;
+            color: var(--cis-gold);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            border-bottom: 1px solid rgba(193, 163, 118, 0.3);
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        /* 色票列表 */
+        .color-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .color-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #ddd;
+        }
+
+        .color-row span {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .dot.gold {
+            background: #C1A376;
+            box-shadow: 0 0 5px rgba(193, 163, 118, 0.5);
+        }
+
+        .dot.sumi {
+            background: #2C2A29;
+            border: 1px solid #555;
+        }
+
+        .dot.paper {
+            background: #F4F1EA;
+        }
+
+        .hex-code {
+            font-family: monospace;
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        /* 字體展示 */
+        .typo-sample {
+            font-family: 'Noto Serif TC', serif;
+        }
+
+        .typo-name {
+            display: block;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .typo-slogan {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        .grid-footer {
+            grid-column: 1 / -1;
+            text-align: right;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.2);
+            margin-top: 1rem;
+        }
+
+        /* --- Other Elements from original file --- */
+        .spec-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 6rem;
+        }
+
+        .logo-box {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border: 1px solid rgba(193, 163, 118, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-box img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            color: #C1A376;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+
+        .color-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #fff;
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 6rem 5%; background: #111; color: #fff;
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .footer-info h2 {
+            font-size: 2.5rem; margin-bottom: 2rem;
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+        .back-to-top {
+            cursor: pointer; text-align: center;
+            font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+        }
+        .back-to-top .arrow {
+            display: block; font-size: 1.5rem; margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
         .back-to-top:hover .arrow {
-            transform: translateY(-8px);
-            color: var(--accent-orange);
+            transform: translateY(-8px); color: var(--accent-orange);
         }
 
         @media (max-width: 900px) {
-            .work-wall {
-                column-count: 2;
-            }
-
-            .description {
+            .work-wall { column-count: 1; }
+            .description { grid-template-columns: 1fr; gap: 2rem; }
+            .header h1 { font-size: 2.8rem; }
+            .header-tagline { font-size: 1.2rem; border-left-width: 3px; }
+        }
+        
+        @media (max-width: 900px) {
+            .cis-container {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                padding: 2rem;
             }
 
-            .header h1 {
-                font-size: 2.8rem;
+            .cis-left {
+                border-right: none;
+                border-bottom: 1px solid rgba(193, 163, 118, 0.2);
+                padding-bottom: 2rem;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .vertical-text-group {
+                flex-direction: row;
+            }
+
+            .main-vertical,
+            .sub-vertical {
+                writing-mode: horizontal-tb;
+            }
+
+            .cis-right {
+                padding-left: 0;
+            }
+
+            .spec-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <nav class="back-nav"><a href="index.html#projects">← BACK TO SELECTED WORKS</a></nav>
+
     <div class="container">
-        <p class="label">Identity Design</p>
-        <h1 style="font-size: 3rem;">山炙本味 CIS 規範系統</h1>
+        <section id="featured">
+            <div class="cis-wrapper">
+
+                <div class="cis-header">
+                    <span class="header-title">SELECTED CASE</span>
+                    <span class="header-tag">Branding</span>
+                </div>
+
+                <div class="cis-container">
+
+                    <div class="cis-left">
+                        <div class="vertical-text-group">
+                            <h2 class="main-vertical">職 人 炙 燒 肉 乾</h2>
+                            <p class="sub-vertical" Style="margin-top: 5rem" >一拆立即滿足肉慾，無負擔的一口力量</p>
+                        </div>
+                        <div class="brand-eng" Style="margin-top: 2rem" >
+                            SHAN ZHI<br>ORIGINALS
+                        </div>
+                    </div>
+
+                    <div class="cis-center">
+                        <div class="graphic-wrapper">
+                            <div class="circle-outline"></div>
+                            <div class="triangle-down"></div>
+                        </div>
+                        <h1 class="logo-text-center">山炙本味</h1>
+                    </div>
+
+                    <div class="cis-right">
+
+                        <div class="sys-section">
+                            <span class="sys-title"
+                                style="width: 100%; border-bottom: 1px solid rgba(193,163,118,0.3);">IDENTITY
+                                SYSTEM</span>
+                        </div>
+
+                        <div class="sys-section">
+                            <span class="sys-title" style="border:none; margin-bottom:0;">COLOR PALETTE</span>
+                            <div class="color-list">
+                                <div class="color-row">
+                                    <span><i class="dot gold"></i> Gold</span>
+                                    <span class="hex-code">#C1A376</span>
+                                </div>
+                                <div class="color-row">
+                                    <span><i class="dot sumi"></i> Sumi</span>
+                                    <span class="hex-code">#2C2A29</span>
+                                </div>
+                                <div class="color-row">
+                                    <span><i class="dot paper"></i> Paper</span>
+                                    <span class="hex-code">#F4F1EA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sys-section">
+                            <span class="sys-title" style="border:none; margin-bottom:0;">TYPOGRAPHY</span>
+                            <div class="typo-sample">
+                                <span class="typo-name">Noto Serif TC Bold</span>
+                                <span class="typo-slogan">Thinking about the origin of taste.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-footer">
+                        * Coded with CSS Grid & Flexbox
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="spec-grid">
             <div>
                 <div class="label">01. Logo Construction</div>
-                <div class="logo-box"><img src="images/CIS 2.jpg" alt="LOGO 比例與方格圖"></div>
+                <div class="logo-box">
+                    <img src="images/CIS 2.jpg" alt="LOGO construction" style="opacity: 0.8;">
+                </div>
             </div>
             <div>
-                <div class="label">02. Color System</div>
+                <!-- <div class="label">02. Color System</div>
                 <div style="display: flex; gap: 20px;">
                     <div class="color-circle" style="background: #C1A376;"></div>
                     <div class="color-circle" style="background: #2C2A29;"></div>
                     <div class="color-circle" style="background: #F4F1EA;"></div>
                 </div>
-                <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;">以「炭火」與「暖金」為基調，傳遞職人手作的溫度感與高級食材的品質感。</p>
+                <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7; line-height: 1.6;">
+                    以「炭火」與「暖金」為基調，傳遞職人手作的溫度感與高級食材的品質感。
+                </p>
+            </div> -->
+                <div class="label">02. Brand concept</div>
+                <span class="typo-name" style="margin-top: 2rem";>職人炙燒，本味堅持</span>
+                <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7; line-height: 2;">
+                    「山炙本味」源自對台灣原始肉香的極致追求。
+                    我們從一個小小碳烤攤開始，三代以來只做一件事：
+                </p>
+                <span class="typo-name"
+                    style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7; line-height: 2;">用最簡單的火候，烤出最純粹的台灣滋味。</span>
+                <span class="typo-slogan"
+                    style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.7; line-height: 2;">最純粹的美味不需要過度添加，而是來自職人對火候的精準掌控。
+                    我們把台灣的記憶、文化與味道，封在每一片肉中，</span>
+                <span class="typo-name" style="margin-top: 2rem";>讓世界知道，一份零食，也能代表一座島。</span>
             </div>
         </div>
 
         <div style="margin-top: 6rem;">
             <div class="label">03. Applications</div>
-            <!-- <div style="width: 100%; height: 400px; background: rgba(255,255,255,0.05);"> -->
-                <img src="images/CIS 1.jpg" alt="">
-            </div>
+            <img src="images/CIS 1.jpg" alt="Application Mockup"
+                style="width: 100%; height: auto; display: block; opacity: 0.9;">
         </div>
     </div>
-        <footer>
+
+    <footer>
         <div class="footer-info">
-            <h2 class="uppercase">Let's Create<br>Something Great.</h2>
-            <p style="opacity: 0.5;"> © 2025 PORTFOLIO. DESIGNED & CODED BY YC SUN.</p>
+            <h2>Let's Create<br>Something Great.</h2>
+            <p style="opacity: 0.5; font-size: 0.8rem; letter-spacing: 0.1em;">© 2025 PORTFOLIO. DESIGNED & CODED BY YC SUN.
+            </p>
         </div>
 
         <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
@@ -107,9 +506,8 @@
             <span>Back to Top</span>
         </div>
     </footer>
-    
 </body>
-</html>
 
+</html>
 
 
