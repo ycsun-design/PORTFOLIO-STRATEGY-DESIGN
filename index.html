@@ -1,1320 +1,424 @@
 <!DOCTYPE html>
-
 <html lang="zh-TW">
 
-
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>PORTFOLIO | STRATEGY & DESIGN</title>
-
     <link
-
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Noto+Serif+TC:wght@400;700&display=swap"
-
         rel="stylesheet">
 
-
-
     <style>
-
         /* --- 1. 全域變數 & 基礎設定 --- */
-
         :root {
-
             /* 基底色調 */
-
-            --bg-color: #F2F2F2;
-
+            --bg-color: #F8F8F8; /*稍微調亮一點背景，讓光球更透*/
             --text-main: #1A1A1A;
-
             --text-sub: #555555;
 
+            /* 品牌色調：橘紅 */
+            --accent-orange: #ffa08a60;
 
+            /* --- 流體背景專用色系 (Liquid Colors) --- */
+            /* 主色1: 品牌橘 */
+            --cr-main-1: #ff937b; 
+            /* 主色2: 奢華金 */
+            --cr-main-2: #f4d03faf; 
+            /* 主色3: 閃爍白 (用於製造亮點) */
+            --cr-main-3: #FFFFFF;
 
-            /* 品牌色調：橘紅微醺 */
-
-            --accent-orange: #FF6B4A;
-
-            --accent-glow: linear-gradient(120deg, #FF8C61, #FF9A9E, #F4D03F);
-
-
-
-            /* CIS 專用色調 (山炙本味) */
-
-            --cis-gold: #C1A376;
-
-            --cis-black: #2C2A29;
-
-            --cis-paper: #F4F1EA;
-
-
+            /* 使用 color-mix 混合出豐富的過渡色 (暖橘 -> 金 -> 白) */
+            --cr-1: color-mix(in srgb, var(--cr-main-1), var(--cr-main-2) 20%);
+            --cr-2: color-mix(in srgb, var(--cr-main-1), var(--cr-main-3) 40%); /* 帶白的橘 */
+            --cr-3: color-mix(in srgb, var(--cr-main-2), var(--cr-main-1) 50%);
+            --cr-4: color-mix(in srgb, var(--cr-main-2), var(--cr-main-3) 60%); /* 帶白的金 */
+            --cr-5: color-mix(in srgb, var(--cr-main-1), transparent 20%);
 
             /* 字體設定 */
-
             --font-stack: 'Helvetica Neue', Arial, 'Noto Sans TC', sans-serif;
-
-            --font-serif: 'Noto Serif TC', serif;
-
-
-
             --nav-height: 80px;
-
         }
 
-
-
-        * {
-
-            box-sizing: border-box;
-
-        }
-
-
-
-        html {
-
-            scroll-behavior: smooth;
-
-        }
-
-
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-
             background-color: var(--bg-color);
-
             color: var(--text-main);
-
             font-family: var(--font-stack);
-
-            margin: 0;
-
-            padding: 0;
-
-            line-height: 1.6;
-
-            overflow-x: hidden;
-
-            width: 100%;
-
+            margin: 0; padding: 0; line-height: 1.6;
+            overflow-x: hidden; width: 100%;
+            position: relative;
         }
-
-
 
         /* --- 2. 視覺特效：全站粗粒感 (Grainy Texture) --- */
-
+        /* 確保噪點在最上層，覆蓋流體背景 */
         body::before {
-
             content: "";
-
-            position: fixed;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            pointer-events: none;
-
-            z-index: 9999;
-
-            opacity: 0.04;
-
-            /* 調整雜訊強度 */
-
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9999; opacity: 0.06; /* 稍微增強噪點以配合流體 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-
         }
 
-
-
-        /* 文字設定：Swiss Style */
-
-        .uppercase {
-
-            text-transform: uppercase;
-
-            letter-spacing: 0.1em;
-
-        }
-
-
-
-        h1,
-
-        h2,
-
-        h3,
-
-        h4 {
-
-            margin: 0;
-
-            font-weight: 700;
-
-            letter-spacing: 0.05em;
-
-        }
-
-
-
-        p {
-
-            margin-bottom: 1rem;
-
-        }
-
-
-
-        a {
-
-            text-decoration: none;
-
-            color: inherit;
-
-            transition: 0.3s;
-
-        }
-
-
-
-        /* --- 3. Navigation 導覽列 --- */
-
-        nav {
-
+        /* --- 3. 新增：流體背景樣式 (Liquid Blobs) --- */
+        .blobs {
             position: fixed;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: var(--nav-height);
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            padding: 0 5%;
-
-            z-index: 1000;
-
-            background: rgba(242, 242, 242, 0.85);
-
-            backdrop-filter: blur(12px);
-
-            /* 毛玻璃 */
-
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-
+            z-index: -1; /* 放在內容之下 */
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            filter: blur(100px); /* 模糊程度，越大越暈染 */
+            opacity: 0.7; /* 整體透明度，避免搶過文字 */
         }
 
-
-
-        .logo {
-
-            font-weight: 800;
-
-            font-size: 1.2rem;
-
-            letter-spacing: 0.1rem;
-
-        }
-
-
-
-        .nav-links {
-
-            display: flex;
-
-            gap: 3rem;
-
-        }
-
-
-
-        .nav-links a {
-
-            font-size: 0.9rem;
-
-            font-weight: 500;
-
-            position: relative;
-
-        }
-
-
-
-        .nav-links a::after {
-
-            content: '';
-
-            position: absolute;
-
-            bottom: -5px;
-
-            left: 0;
-
-            width: 0%;
-
-            height: 2px;
-
-            background-color: var(--accent-orange);
-
-            transition: width 0.3s;
-
-        }
-
-
-
-        .nav-links a:hover::after {
-
-            width: 100%;
-
-        }
-
-
-
-        /* --- 4. Hero Section --- */
-
-        #home {
-
-            position: relative;
-
-            height: 100vh;
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-
-            padding: 0 10%;
-
-            padding-top: var(--nav-height);
-
-        }
-
-
-
-        /* 背景流動光暈 */
-
-        .glow-blob {
-
-            position: absolute;
-
-            width: 55vw;
-
-            height: 55vw;
-
-            background: var(--accent-glow);
-
+        .blob {
+            width: max(240px, 28vw);
+            aspect-ratio: 1;
             border-radius: 50%;
-
-            filter: blur(90px);
-
-            opacity: 0.35;
-
-            top: 5%;
-
-            right: -15%;
-
-            z-index: -1;
-
-            animation: float 12s infinite alternate ease-in-out;
-
+            position: absolute;
+            top: 0; left: 0;
+            /* 加入呼吸動畫，製造閃爍感 */
+            animation: pulse 4s infinite ease-in-out alternate;
         }
 
+        /* 個別定義光球顏色 */
+        .blob:nth-of-type(1) { background: var(--cr-main-1); animation-delay: 0s; }
+        .blob:nth-of-type(2) { background: var(--cr-main-2); animation-delay: 1s; }
+        .blob:nth-of-type(3) { background: var(--cr-1); animation-delay: 2s; }
+        .blob:nth-of-type(4) { background: var(--cr-2); width: max(150px, 15vw); /* 這顆做小一點當作高光 */ animation-delay: 0.5s; opacity: 0.8; }
+        .blob:nth-of-type(5) { background: var(--cr-3); animation-delay: 1.5s; }
+        .blob:nth-of-type(6) { background: var(--cr-4); animation-delay: 2.5s; }
+        .blob:nth-of-type(7) { background: var(--cr-main-1); opacity: 0.5; animation-delay: 3s; }
 
-
-        @keyframes float {
-
-            0% {
-
-                transform: translate(0, 0);
-
-            }
-
-
-
-            100% {
-
-                transform: translate(-40px, 60px);
-
-            }
-
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 0.6; }
         }
 
+        /* --- 4. 既有樣式保持不變 --- */
+        .uppercase { text-transform: uppercase; letter-spacing: 0.1em; }
+        h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: 0.05em; }
+        p { margin-bottom: 1rem; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
 
-
-        .hero-title {
-
-            font-size: 5vw;
-
-            line-height: 1.1;
-
-            margin-bottom: 2rem;
-
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; z-index: 1000;
+            background: rgba(248, 248, 248, 0.7); /* 讓背景透出來 */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
-
-
-
-        .hero-subtitle {
-
-            border-left: 3px solid var(--accent-orange);
-
-            padding-left: 1.5rem;
-
-            color: var(--text-sub);
-
+        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: 0.1rem; }
+        .nav-links { display: flex; gap: 3rem; }
+        .nav-links a { font-size: 0.9rem; font-weight: 500; position: relative; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
+            background-color: var(--accent-orange); transition: width 0.3s;
         }
+        .nav-links a:hover::after { width: 100%; }
 
+        /* Hero */
+        #home {
+            position: relative; height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 10%; padding-top: var(--nav-height);
+        }
+        .hero-title { font-size: 5vw; line-height: 1.1; margin-bottom: 2rem; }
+        .hero-subtitle { border-left: 3px solid var(--accent-orange); padding-left: 1.5rem; color: var(--text-sub); }
 
-
-        /* --- 5. Philosophy (About) --- */
-
+        /* About */
         #about {
-
-            padding: 6rem 10%;
-
-            display: grid;
-
-            grid-template-columns: 1fr 2fr;
-
-            gap: 4rem;
-
+            padding: 6rem 10%; display: grid; grid-template-columns: 1fr 2fr; gap: 4rem;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
-
+            position: relative;
+            background: rgba(255,255,255,0.3); /* 微透白底，增加文字可讀性 */
+            backdrop-filter: blur(5px);
         }
-
-
-
-        .section-label {
-
-            font-size: 0.9rem;
-
-            color: var(--text-sub);
-
-            opacity: 0.7;
-
-        }
-
-
-
-        .about-content h3 {
-
-            font-size: 2rem;
-
-            margin-bottom: 1.5rem;
-
-        }
-
-
-
-        .skill-tags {
-
-            display: flex;
-
-            gap: 0.8rem;
-
-            flex-wrap: wrap;
-
-            margin-top: 2rem;
-
-        }
-
-
-
+        .section-label { font-size: 0.9rem; color: var(--text-sub); opacity: 0.7; }
+        .about-content h3 { font-size: 2rem; margin-bottom: 1.5rem; }
+        .skill-tags { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 2rem; }
         .tag {
-
-            padding: 0.4rem 1rem;
-
-            border: 1px solid #ccc;
-
-            border-radius: 50px;
-
-            font-size: 0.8rem;
-
-            letter-spacing: 0.05rem;
-
-            background: rgba(255, 255, 255, 0.5);
-
+            padding: 0.4rem 1rem; border: 1px solid #ccc; border-radius: 50px;
+            font-size: 0.8rem; letter-spacing: 0.05rem; background: rgba(255, 255, 255, 0.5);
         }
 
-
-
-        /* --- 4. Philosophy (思維) --- */
-
-        .section-padding {
-
-            padding: 6rem 10%;
-
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-
-        }
-
-
-
-        .grid-focus {
-
-            display: grid;
-
-            grid-template-columns: 1fr 2fr;
-
-            gap: 2rem;
-
-        }
-
-
-
-        .focus-list .item {
-
-            padding: 2rem 0;
-
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            transition: 0.3s;
-
-            cursor: pointer;
-
-        }
-
-
-
-        .focus-list .item:hover {
-
-            padding-left: 15px;
-
-            color: #d35400;
-
-            /* 深橘色 */
-
-        }
-
-
-
-        .focus-list .item h3 {
-
-            font-size: 1.5rem;
-
-            font-weight: 500;
-
-        }
-
-
-
-        /* --- 4. Philosophy (思維) - 更新版 --- */
-
-        .section-padding {
-
-            padding: 6rem 10%;
-
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-
-        }
-
-
-
-        .grid-focus {
-
-            display: grid;
-
-            grid-template-columns: 1fr 2fr;
-
-            gap: 4rem;
-
-            /* 關鍵：讓左側標題與右側列表「垂直置中」對齊 */
-
-            align-items: center;
-
-        }
-
-
-
-        /* 列表項目容器 */
-
-        .focus-list .item {
-
-            padding: 2rem 0;
-
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
-            cursor: pointer;
-
-            transition: background-color 0.3s;
-
-        }
-
-
-
-        /* 標題與+號的橫向排列區塊 */
-
-        .item-header {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-        }
-
-
-
-        .focus-list .item:hover .item-header {
-
-            color: #d35400;
-
-            /* 深橘色 */
-
-            padding-left: 10px;
-
-            /* 微位移 */
-
-            transition: 0.3s;
-
-        }
-
-
-
-        .focus-list .item h3 {
-
-            font-size: 1.5rem;
-
-            font-weight: 500;
-
-            margin: 0;
-
-        }
-
-
-
-        /* 右側的 + 號動畫 */
-
-        .plus-icon {
-
-            font-size: 1.5rem;
-
-            transition: transform 0.4s ease;
-
-        }
-
-
-
-        /* 當項目被啟用(active)時，+ 號旋轉 45度變 X */
-
-        .item.active .plus-icon {
-
-            transform: rotate(45deg);
-
-            color: #d35400;
-
-        }
-
-
-
-        /* 隱藏的內文區域 */
-
-        .item-desc {
-
-            max-height: 0;
-
-            /* 預設高度為 0 */
-
-            overflow: hidden;
-
-            opacity: 0;
-
-            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
-
-            padding-right: 2rem;
-
-        }
-
-
-
-        /* 當項目被啟用時，展開內文 */
-
-        .item.active .item-desc {
-
-            max-height: 200px;
-
-            /* 設定一個足夠展開的高度 */
-
-            opacity: 1;
-
-            margin-top: 1.5rem;
-
-            /* 與標題的距離 */
-
-        }
-
-
-
-        .item-desc p {
-
-            font-size: 1rem;
-
-            color: #555;
-
-            line-height: 1.8;
-
-            margin: 0;
-
-        }
-
-
-
-        /* 手機版適配 */
-
-        @media (max-width: 768px) {
-
-            .grid-focus {
-
-                grid-template-columns: 1fr;
-
-                gap: 2rem;
-
-            }
-
-        }
-
-
-
-        /* --- 7. Projects Grid (其他作品) --- */
-
-        #projects {
-
-            padding: 8rem 10%;
-
-        }
-
-
-
-        .grid-container {
-
-            display: grid;
-
-            grid-template-columns: repeat(2, 1fr);
-
-            gap: 30px;
-
-            margin-top: 3rem;
-
-        }
-
-
-
-        .project-link {
-
-            display: block;
-
-            text-decoration: none;
-
-            color: inherit;
-
-            position: relative;
-
-            transition: 0.4s;
-
-        }
-
-
-
-        .img-holder {
-
-            width: 100%;
-
-            aspect-ratio: 3/2;
-
-            background: #ddd;
-
-            overflow: hidden;
-
-            margin-bottom: 15px;
-
-            position: relative;
-
-        }
-
-
-
+        /* Focus On */
+        .section-padding { padding: 6rem 10%; border-top: 1px solid rgba(0, 0, 0, 0.1); background: rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
+        .grid-focus { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: center; }
+        .focus-list .item { padding: 2rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.1); cursor: pointer; transition: background-color 0.3s; }
+        .item-header { display: flex; justify-content: space-between; align-items: center; }
+        .focus-list .item:hover .item-header { color: #d35400; padding-left: 10px; transition: 0.3s; }
+        .focus-list .item h3 { font-size: 1.5rem; font-weight: 500; margin: 0; }
+        .plus-icon { font-size: 1.5rem; transition: transform 0.4s ease; }
+        .item.active .plus-icon { transform: rotate(45deg); color: #d35400; }
+        .item-desc { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease; padding-right: 2rem; }
+        .item.active .item-desc { max-height: 200px; opacity: 1; margin-top: 1.5rem; }
+        .item-desc p { font-size: 1rem; color: #555; line-height: 1.8; margin: 0; }
+        @media (max-width: 768px) { .grid-focus { grid-template-columns: 1fr; gap: 2rem; } }
+
+        /* Projects */
+        #projects { padding: 8rem 10%; background: rgba(255,255,255,0.4); }
+        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 3rem; }
+        .project-link { display: block; text-decoration: none; color: inherit; position: relative; transition: 0.4s; }
+        .img-holder { width: 100%; aspect-ratio: 3/2; background: #ddd; overflow: hidden; margin-bottom: 15px; position: relative; }
         .img-holder::after {
-
-            content: "VIEW DETAILS →";
-
-            position: absolute;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            background: rgba(255, 107, 74, 0.9);
-
-            color: white;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            opacity: 0;
-
-            transition: 0.3s;
-
-            font-weight: bold;
-
+            content: "VIEW DETAILS →"; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 107, 74, 0.9); color: white; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; font-weight: bold;
         }
+        .project-link:hover .img-holder::after { opacity: 1; }
+        .project-link:hover .img-holder { transform: translateY(-10px); }
 
-
-
-        .project-link:hover .img-holder::after {
-
-            opacity: 1;
-
-        }
-
-
-
-        .project-link:hover .img-holder {
-
-            transform: translateY(-10px);
-
-        }
-
-
-
-        /* --- 8. Contact --- */
-
-        #contact {
-
-            padding: 8rem 10%;
-
-            background: #151515;
-
-            color: #fff;
-
-            position: relative;
-
-            overflow: hidden;
-
-        }
-
-
-
-        #contact::before {
-
-            content: '';
-
-            position: absolute;
-
-            top: -50%;
-
-            left: -20%;
-
-            width: 80vw;
-
-            height: 80vw;
-
-            background: radial-gradient(circle, #FF6B4A 0%, transparent 60%);
-
-            opacity: 0.2;
-
-            filter: blur(80px);
-
-        }
-
-
-
-        .contact-content {
-
-            position: relative;
-
-            z-index: 1;
-
-        }
-
-
-
-        .email-link {
-
-            display: inline-block;
-
-            font-size: 2rem;
-
-            color: #fff;
-
-            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-
-            padding-bottom: 5px;
-
-        }
-
-
-
-        .email-link:hover {
-
-            color: var(--accent-orange);
-
-            border-color: var(--accent-orange);
-
-        }
-
-
-
-        /* RWD */
+        /* Contact */
+        #contact { padding: 8rem 10%; background: #151515; color: #fff; position: relative; overflow: hidden; }
+        #contact::before { content: ''; position: absolute; top: -50%; left: -20%; width: 80vw; height: 80vw; background: radial-gradient(circle, #FF6B4A 0%, transparent 60%); opacity: 0.2; filter: blur(80px); }
+        .contact-content { position: relative; z-index: 1; }
+        .email-link { display: inline-block; font-size: 2rem; color: #fff; border-bottom: 2px solid rgba(255, 255, 255, 0.3); padding-bottom: 5px; }
+        .email-link:hover { color: var(--accent-orange); border-color: var(--accent-orange); }
 
         @media (max-width: 900px) {
-
-            .cis-container {
-
-                grid-template-columns: 1fr;
-
-                padding: 1.5rem;
-
-                border: none;
-
-            }
-
-
-
-            .cis-concept,
-
-            .cis-visual,
-
-            .cis-system {
-
-                border: none;
-
-                padding: 0;
-
-                margin-bottom: 2rem;
-
-                text-align: center;
-
-            }
-
-
-
-            .vertical-txt h2,
-
-            .vertical-txt p {
-
-                writing-mode: horizontal-tb;
-
-            }
-
-
-
-            .cis-system {
-
-                padding-left: 0;
-
-                border-top: 1px solid #333;
-
-                padding-top: 2rem;
-
-            }
-
-
-
-            .projects-grid {
-
-                grid-template-columns: 1fr;
-
-            }
-
-
-
-            .hero-title {
-
-                font-size: 3.5rem;
-
-            }
-
-
-
-            .nav-links {
-
-                display: none;
-
-            }
-
-
-
-            /* 手機版隱藏選單 */
-
+            .cis-container { grid-template-columns: 1fr; padding: 1.5rem; border: none; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 3.5rem; }
+            .nav-links { display: none; }
         }
-
     </style>
-
 </head>
-
-
 
 <body>
 
-
+    <div class="blobs">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
 
     <nav>
-
         <div class="logo uppercase">SUN YI CHING</div>
-
         <div class="nav-links uppercase">
-
             <a href="#about">About</a>
-
             <a href="#featured">Featured</a>
-
             <a href="#projects">Works</a>
-
             <a href="#contact">Contact</a>
-
         </div>
-
     </nav>
 
-
-
     <header id="home">
-
-        <div class="glow-blob"></div>
-
         <h1 class="hero-title uppercase">
-
             Design As<br>Communication.
-
         </h1>
-
         <div class="hero-subtitle">
-
             <h3 class="uppercase" style="color: var(--text-main);">Problem Solving</h3>
-
             <p style="margin: 0.5rem 0 0;">好的設計不僅是為了美觀，更是為了解決問題。</p>
-
         </div>
-
     </header>
 
-
-
     <section id="about">
-
         <div class="section-label uppercase">讓創意在細節中發光</div>
-
         <div class="about-content">
-
             <h3>Bridging Strategy & Aesthetics.</h3>
-
             <p>從概念到執行，結合創意與邏輯，打造有影響力的內容，讓每個設計與策略都直達目標。</p>
-
             <p>
-
                 我是一名數位行銷人，也是視覺設計師。我擅長運用數據洞察制定策略，並透過設計語言將其轉化為具體的視覺成果。
-
                 在這個資訊爆炸的時代，我相信「清晰」與「連結」是品牌最寶貴的資產。
-
             </p>
-
             <div class="skill-tags uppercase">
-
                 <span class="tag">Brand Strategy</span>
-
                 <span class="tag">Visual Identity</span>
-
                 <span class="tag">Social Media</span>
-
                 <span class="tag">Web Design</span>
-
             </div>
-
         </div>
-
     </section>
-
-
-
-
-
-    <!-- focus -->
 
     <section class="section-padding">
-
         <div class="grid-focus">
-
             <div>
-
                 <h2 class="uppercase" style="font-size: 2rem; margin-bottom: 1rem;">Focus On</h2>
-
                 <p style="color: #666; margin: 0;">Bridging Strategy & Aesthetics.</p>
-
             </div>
-
-
 
             <div class="focus-list">
-
-
-
                 <div class="item" onclick="toggleItem(this)">
-
                     <div class="item-header">
-
                         <div>
-
                             <h3 class="uppercase">Strategy</h3>
-
                             <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">策略思維</span>
-
                         </div>
-
                         <span class="plus-icon">+</span>
-
                     </div>
-
                     <div class="item-desc">
-
-                        <p>具專案管理背景，熟悉跨部門協作與資源整合，專注行銷策略與視覺呈現結合，創造有效溝通。</p>
-
+                        <p>將專案管理的嚴謹邏輯，轉化為行銷執行的精準度，確保每一分預算都能創造最大價值。</p>
                     </div>
-
                 </div>
 
-
-
                 <div class="item" onclick="toggleItem(this)">
-
                     <div class="item-header">
-
                         <div>
-
                             <h3 class="uppercase">Design</h3>
-
                             <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">設計整合</span>
-
                         </div>
-
                         <span class="plus-icon">+</span>
-
                     </div>
-
                     <div class="item-desc">
-
-                        <p>視覺設計、出版設計、內容呈現，讓創意落實為可見成果。</p>
-
+                        <p>超越單純美學的商業設計，讓視覺為品牌說故事，成為推動行銷漏斗的關鍵動力。</p>
                     </div>
-
                 </div>
-
-
 
                 <div class="item" onclick="toggleItem(this)">
-
                     <div class="item-header">
-
                         <div>
-
                             <h3 class="uppercase">Brand Communication</h3>
-
                             <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">品牌溝通</span>
-
                         </div>
-
                         <span class="plus-icon">+</span>
-
                     </div>
-
                     <div class="item-desc">
-
-                        <p>跨部門協作、行銷素材規劃、內容設計與公關互動，將品牌理念轉化為清晰表達。</p>
-
+                        <p>構建一致且具說服力的品牌敘事，整合內容企劃與廣告訊息，建立品牌與受眾之間的深層連結與信任感。</p>
                     </div>
-
                 </div>
-
-
-
             </div>
-
         </div>
-
-    </section>F
-
-
+    </section>
 
     <section id="projects">
-
         <h2 class="uppercase" style="border-bottom: 2px solid #000; padding-bottom: 1rem;">Selected Works</h2>
 
-
-
         <div class="grid-container">
-
             <a href="social-detail.html" class="project-link">
-
                 <div class="img-holder" style="background: #fdf2f2;">
-
-                    <div style="padding: 2rem; font-size: 0.8rem; color: #FF6B4A;">SOCIAL MEDIA STRATEGY</div>
-
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #FF6B4A; display: flex; height: 100%; align-items: center; justify-content: center;">SOCIAL MEDIA THUMBNAIL</div>
                 </div>
-
                 <h4 class="uppercase">社群行銷策略</h4>
-
                 <p style="font-size: 0.8rem; color: #777;">短影音企劃 / IG視覺排版 / 內容策略</p>
-
             </a>
-
-
 
             <a href="Commercial Advertising.html" class="project-link">
-
                 <div class="img-holder" style="background: #eee;">
-
-                    <div style="padding: 2rem; font-size: 0.8rem; color: #555;">COMMERCIAL ADVERTISING</div>
-
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #555; display: flex; height: 100%; align-items: center; justify-content: center;">COMMERCIAL AD THUMBNAIL</div>
                 </div>
-
                 <h4 class="uppercase">商業視覺設計</h4>
-
                 <p style="font-size: 0.8rem; color: #777;">戶外廣告燈箱 / 視覺廣告 / 印刷物設計</p>
-
             </a>
-
-
 
             <a href="branding-detail.html" class="project-link">
-
                 <div class="img-holder" style="background: #2C2A29;">
-
-                    <div style="padding: 2rem; font-size: 0.8rem; color: #C1A376;">BRAND IDENTITY</div>
-
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #C1A376; display: flex; height: 100%; align-items: center; justify-content: center;">BRANDING THUMBNAIL</div>
                 </div>
-
                 <h4 class="uppercase">品牌識別系統</h4>
-
                 <p style="font-size: 0.8rem; color: #777;">Logo 設計 / CIS 規範 / 品牌轉型規劃</p>
-
             </a>
-
-
 
             <a href="exhibition-detail.html" class="project-link">
-
                 <div class="img-holder" style="background: #fff; border: 1px solid #ddd;">
-
-                    <div style="padding: 2rem; font-size: 0.8rem; color: #999;">OTHERS</div>
-
+                    <div style="padding: 2rem; font-size: 0.8rem; color: #999; display: flex; height: 100%; align-items: center; justify-content: center;">OTHERS THUMBNAIL</div>
                 </div>
-
                 <h4 class="uppercase">其他創意專案</h4>
-
                 <p style="font-size: 0.8rem; color: #777;">品牌行銷 / 公關策略 / 行銷活動 </p>
-
             </a>
-
         </div>
-
     </section>
-
-
 
     <section id="contact">
-
         <div class="contact-content">
-
             <p class="uppercase" style="letter-spacing: 0.2rem; opacity: 0.7;">Get in Touch</p>
-
             <h2 style="font-size: 3rem; margin-bottom: 2rem; line-height: 1.2;" class="uppercase">
-
                 Have an idea?<br>Let's build it together.
-
             </h2>
 
-
-
-            <a href="mailto:yourname@example.com" class="email-link">ycsun2023@gmail.com</a>
-
-
+            <a href="mailto:ycsun2023@gmail.com" class="email-link">ycsun2023@gmail.com</a>
 
             <div style="margin-top: 4rem; display: flex; gap: 2rem; font-size: 0.9rem; opacity: 0.6;" class="uppercase">
-
-                <!-- <a href="#">Instagram</a>
-
-                <a href="#">LinkedIn</a>
-
-                <a href="#">Behance</a> -->
-
             </div>
 
-
-
             <p style="margin-top: 4rem; font-size: 0.8rem; opacity: 0.3;">
-
                 © 2025 PORTFOLIO. DESIGNED & CODED BY SUN YI CHING.
-
             </p>
-
         </div>
-
     </section>
 
-
-
     <script>
-
         function toggleItem(element) {
-
-            // 1. 如果想要「手風琴效果」（點開一個，自動關閉其他），請保留下面這兩行；
-
-            //    如果想要可以同時打開多個，請刪除下面這兩行。
-
             const allItems = document.querySelectorAll('.focus-list .item');
-
             allItems.forEach(item => {
-
                 if (item !== element) item.classList.remove('active');
-
             });
-
-
-
-            // 2. 切換當前點擊項目的 active 狀態
-
             element.classList.toggle('active');
-
         }
-
     </script>
 
+    <script>
+        const MIN_SPEED = 0.5;
+        const MAX_SPEED = 1.5; // 速度稍微調慢一點，符合微醺感
 
+        function randomNumber(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        class Blob {
+            constructor(el) {
+                this.el = el;
+                const boundingRect = this.el.getBoundingClientRect();
+                this.size = boundingRect.width;
+                // 隨機初始位置
+                this.initialX = randomNumber(0, window.innerWidth - this.size);
+                this.initialY = randomNumber(0, window.innerHeight - this.size);
+                this.el.style.top = `${this.initialY}px`;
+                this.el.style.left = `${this.initialX}px`;
+                // 速度
+                this.vx = randomNumber(MIN_SPEED, MAX_SPEED) * (Math.random() > 0.5 ? 1 : -1);
+                this.vy = randomNumber(MIN_SPEED, MAX_SPEED) * (Math.random() > 0.5 ? 1 : -1);
+                this.x = this.initialX;
+                this.y = this.initialY;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // 邊界碰撞檢測
+                if (this.x >= window.innerWidth - this.size) {
+                    this.x = window.innerWidth - this.size;
+                    this.vx *= -1;
+                }
+                if (this.y >= window.innerHeight - this.size) {
+                    this.y = window.innerHeight - this.size;
+                    this.vy *= -1;
+                }
+                if (this.x <= 0) {
+                    this.x = 0;
+                    this.vx *= -1;
+                }
+                if (this.y <= 0) {
+                    this.y = 0;
+                    this.vy *= -1;
+                }
+
+                this.el.style.transform = `translate(${this.x - this.initialX}px, ${this.y - this.initialY}px)`;
+            }
+        }
+
+        function initBlobs() {
+            const blobEls = document.querySelectorAll('.blob');
+            const blobs = Array.from(blobEls).map((blobEl) => new Blob(blobEl));
+
+            function update() {
+                requestAnimationFrame(update);
+                blobs.forEach((blob) => blob.update());
+            }
+            requestAnimationFrame(update);
+        }
+
+        initBlobs();
+    </script>
 
 </body>
 
-
-
 </html>
 
-</html>
 
