@@ -17,23 +17,23 @@
             --text-main: #1A1A1A;
             --text-sub: #555555;
 
-            /* 品牌色調：橘紅 */
-            --accent-orange: #ffa08a60;
+           /* 調整品牌色調：從原本的橘紅改為更淡、飽和度更低的粉膚色 */
+            --accent-orange: rgba(255, 160, 138, 0.3); /* 調低透明度至 0.3 */
 
             /* --- 流體背景專用色系 (Liquid Colors) --- */
-            /* 主色1: 品牌橘 */
-            --cr-main-1: #ff937b; 
-            /* 主色2: 奢華金 */
-            --cr-main-2: #f4d03faf; 
+            /* 主色1: 降低飽和度，提高亮度 (從 #ff937b 降為更粉嫩的色調) */
+            --cr-main-1: #ffb8a8;
+            /* 主色2: 稍微調弱金色的存在感 */
+            --cr-main-2: #f9e79f90;
             /* 主色3: 閃爍白 (用於製造亮點) */
             --cr-main-3: #FFFFFF;
 
-            /* 使用 color-mix 混合出豐富的過渡色 (暖橘 -> 金 -> 白) */
-            --cr-1: color-mix(in srgb, var(--cr-main-1), var(--cr-main-2) 20%);
-            --cr-2: color-mix(in srgb, var(--cr-main-1), var(--cr-main-3) 40%); /* 帶白的橘 */
-            --cr-3: color-mix(in srgb, var(--cr-main-2), var(--cr-main-1) 50%);
-            --cr-4: color-mix(in srgb, var(--cr-main-2), var(--cr-main-3) 60%); /* 帶白的金 */
-            --cr-5: color-mix(in srgb, var(--cr-main-1), transparent 20%);
+/* 透過混合色讓顏色更連貫，這裡不需要大改，會自動隨主色變淡 */
+    --cr-1: color-mix(in srgb, var(--cr-main-1), var(--cr-main-2) 15%);
+    --cr-2: color-mix(in srgb, var(--cr-main-1), var(--cr-main-3) 50%);
+    --cr-3: color-mix(in srgb, var(--cr-main-2), var(--cr-main-1) 30%);
+    --cr-4: color-mix(in srgb, var(--cr-main-2), var(--cr-main-3) 80%);
+    --cr-5: color-mix(in srgb, var(--cr-main-1), transparent 10%);
 
             /* 字體設定 */
             --font-stack: 'Helvetica Neue', Arial, 'Noto Sans TC', sans-serif;
@@ -67,8 +67,8 @@
             z-index: -1; /* 放在內容之下 */
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            filter: blur(100px); /* 模糊程度，越大越暈染 */
-            opacity: 0.7; /* 整體透明度，避免搶過文字 */
+filter: blur(120px); /* 模糊度稍微增加，讓邊緣更散 */
+opacity: 0.45;       /* 從 0.7 降至 0.45，大幅降低存在感 */
         }
 
         .blob {
@@ -165,7 +165,7 @@
         .img-holder { width: 100%; aspect-ratio: 3/2; background: #ddd; overflow: hidden; margin-bottom: 15px; position: relative; }
         .img-holder::after {
             content: "VIEW DETAILS →"; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 107, 74, 0.9); color: white; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; font-weight: bold;
+            background: rgba(255, 184, 168, 0.85); color: white; display: flex; justify-content: center; align-items: center; opacity: 0; transition: 0.3s; font-weight: bold;
         }
         .project-link:hover .img-holder::after { opacity: 1; }
         .project-link:hover .img-holder { transform: translateY(-10px); }
@@ -420,5 +420,6 @@
 </body>
 
 </html>
+
 
 
