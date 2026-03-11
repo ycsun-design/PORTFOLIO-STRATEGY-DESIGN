@@ -8,22 +8,48 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Noto+Serif+TC:wght@400;700&display=swap"
         rel="stylesheet">
+
     <style>
         /* --- 1. 全域變數 & 基礎設定 --- */
         :root {
+            /* 基底色調 */
             --bg-color: #F8F8F8;
+            /*稍微調亮一點背景，讓光球更透*/
             --text-main: #1A1A1A;
             --text-sub: #555555;
+
+            /* 調整品牌色調：從原本的橘紅改為更淡、飽和度更低的粉膚色 */
             --accent-orange: rgba(255, 160, 138, 0.3);
+            /* 調低透明度至 0.3 */
+
+            /* --- 流體背景專用色系 (Liquid Colors) --- */
+            /* 主色1: 降低飽和度，提高亮度 (從 #ff937b 降為更粉嫩的色調) */
             --cr-main-1: #ffb8a8;
+            /* 主色2: 稍微調弱金色的存在感 */
             --cr-main-2: #f9e79f90;
+            /* 主色3: 閃爍白 (用於製造亮點) */
             --cr-main-3: #FFFFFF;
+
+            /* 透過混合色讓顏色更連貫，這裡不需要大改，會自動隨主色變淡 */
+            --cr-1: color-mix(in srgb, var(--cr-main-1), var(--cr-main-2) 15%);
+            --cr-2: color-mix(in srgb, var(--cr-main-1), var(--cr-main-3) 50%);
+            --cr-3: color-mix(in srgb, var(--cr-main-2), var(--cr-main-1) 30%);
+            --cr-4: color-mix(in srgb, var(--cr-main-2), var(--cr-main-3) 80%);
+            --cr-5: color-mix(in srgb, var(--cr-main-1), transparent 10%);
+
+            /* 字體設定 */
             --font-stack: 'Helvetica Neue', Arial, 'Noto Sans TC', sans-serif;
             --nav-height: 80px;
         }
 
         * {
             box-sizing: border-box;
+        }
+
+        .layout-container {
+            width: 90%;
+            max-width: 1440px;
+            margin: 0 auto;
         }
 
         html {
@@ -42,7 +68,8 @@
             position: relative;
         }
 
-        /* --- 2. 視覺特效：全站粗粒感 --- */
+        /* --- 2. 視覺特效：全站粗粒感 (Grainy Texture) --- */
+        /* 確保噪點在最上層，覆蓋流體背景 */
         body::before {
             content: "";
             position: fixed;
@@ -53,6 +80,7 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0.06;
+            /* 稍微增強噪點以配合流體 */
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
@@ -125,7 +153,32 @@
             }
         }
 
-        /* --- 4. Navigation & 更改點：手機版漢堡選單 --- */
+        /* --- 4. 既有樣式保持不變 --- */
+        .uppercase {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        /* Navigation & 更改點：手機版漢堡選單 --- */
         nav {
             position: fixed;
             top: 0;
@@ -142,13 +195,13 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
+
         .logo {
             font-weight: 800;
             font-size: 1.2rem;
             letter-spacing: 0.1rem;
         }
 
-        /* 桌機版導覽連結 */
         .nav-links {
             display: flex;
             gap: 3rem;
@@ -219,6 +272,8 @@
             transition: 0.3s;
         }
 
+
+        /* Hero */
         #home {
             position: relative;
             height: 100vh;
@@ -252,6 +307,12 @@
             max-width: 100%;
         }
 
+        .hero-subtitle {
+            border-left: 3px solid var(--accent-orange);
+            padding-left: 1.5rem;
+            color: var(--text-sub);
+        }
+
         /* About */
         #about {
             padding: 6rem 10%;
@@ -265,10 +326,84 @@
             backdrop-filter: blur(5px);
         }
 
+        /* --- About 區塊基礎對齊修正 --- */
+        #about {
+            padding: 6rem 10%;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: flex-start;
+            /* 確保頂部對齊 */
+        }
+
+        /* --- 優化左側標籤：精準對齊與質感發光 --- */
         .section-label {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            opacity: 0.7;
+            /* font-size: 0.9rem; */
+            font-size: 1.3rem;
+            color: #333;
+            /* 稍微調深底色，發光對比才明顯 */
+            font-weight: 700 !important;
+            /* 強制加粗 */
+            letter-spacing: 0.15em;
+            line-height: 1;
+            /* 縮小行高有助於頂部對齊 */
+
+            /* 核心對齊微調：
+       若 Bridging... 比較高，請調小數值 (如 0.45)
+       若 中文 比較高，請調大數值 (如 0.6) 
+    */
+            margin-top: 15%;
+
+            position: relative;
+            display: inline-block;
+            margin-left: 30%;
+        }
+
+        /* --- 高質感緩慢流光 --- */
+        .shine-effect {
+            background: linear-gradient(to right,
+                    #444 0%,
+                    #444 45%,
+                    #fff 50%,
+                    #444 55%,
+                    #444 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            /* 速度減慢至 8s，增加優雅感 */
+            animation: textShine 8s ease-in-out infinite;
+        }
+
+        /* 背景呼吸光暈 */
+        .section-label::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            /* 這裡的陰影要非常淡，才會有高級感 */
+            text-shadow: 0 0 15px rgba(255, 184, 168, 0.25);
+            -webkit-text-fill-color: #444;
+            /* 底色 */
+            opacity: 0.5;
+        }
+
+        @keyframes textShine {
+            0% {
+                background-position: -100% center;
+            }
+
+            100% {
+                background-position: 100% center;
+            }
+        }
+
+        /* 確保 About 區塊的對齊 */
+        #about {
+            align-items: start;
+            /* 讓左右兩邊都從頂部對齊 */
         }
 
         .about-content h3 {
@@ -307,11 +442,13 @@
             align-items: center;
         }
 
+        /* 針對選單標題的懸停效果也做平滑處理 */
         .focus-list .item {
             padding: 2rem 0;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            transition: background-color 0.3s;
+            /* 確保顏色切換也不會突兀 */
+            transition: color 0.3s ease;
         }
 
         .item-header {
@@ -343,17 +480,28 @@
         }
 
         .item-desc {
+            /* 1. 將 max-height 預設改為 0 */
             max-height: 0;
             overflow: hidden;
             opacity: 0;
-            /* 優化點：改用 ease-out 並縮短時間，增加流暢感 */
-            transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
-            will-change: max-height;
-            /* 提早通知瀏覽器準備動畫 */
+
+            /* 2. 優化動畫曲線：使用 cubic-bezier 讓彈出感更輕快，而不是死板的線性 */
+            /* 這裡的時間 0.4s 是體感最順暢的數值 */
+            transition:
+                max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.3s ease-out,
+                margin-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* 3. 強制觸發 GPU 加速，消除渲染頓點 */
+            will-change: max-height, opacity;
+            transform: translateZ(0);
+
+            padding-right: 2rem;
         }
 
         .item.active .item-desc {
-            max-height: 300px;
+            /* 4. 修改點：將數值調至合適範圍。如果太高（如 1000px），動畫會因為要在 0.4s 跑完虛擬高度而顯得太快/閃爍 */
+            max-height: 400px;
             opacity: 1;
             margin-top: 1.5rem;
         }
@@ -372,24 +520,27 @@
             }
         }
 
-        F
-
         /* Projects */
         #projects {
-            padding: 8rem 10%;
+            padding: 8rem 0;
             background: rgba(255, 255, 255, 0.4);
         }
 
-        /* 更改點：作品排版優化 */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
+            gap: 40px;
+            /* 稍微拉大間距增加呼吸感 */
             margin-top: 3rem;
+
+            /* 這裡控制內縮量，這會讓作品卡片比標題更往內靠 */
+            padding: 0 5%;
         }
 
         .project-link {
             display: block;
+            text-decoration: none;
+            color: inherit;
             position: relative;
             transition: 0.4s;
         }
@@ -428,39 +579,64 @@
             transform: translateY(-10px);
         }
 
-        /* Contact & 更改點：Get in Touch 優化 */
+        /* Contact */
         #contact {
-            padding: 8rem 10%;
-            background: #151515;
-            color: #fff;
-            position: relative;
-            overflow: hidden;
+            padding: 4rem 0 8rem;
+            background: transparent;
+        }
+
+        #contact::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, #FF6B4A 0%, transparent 60%);
+            opacity: 0.2;
+            filter: blur(80px);
         }
 
         .contact-content {
+            background: #151515;
+            color: #fff;
+            padding: 6rem 8%;
+            width: 100%;
+            /* 填滿 layout-container，確保外框對齊標題 */
             position: relative;
             z-index: 1;
         }
 
-        /* 使用 clamp 避免手機版裁切 */
+        /* 關鍵修正點：調整 Contact 標題的響應式邏輯 */
         .contact-content h2 {
-            font-size: clamp(2rem, 8vw, 3.5rem);
+            /* 調整：將首選值從 8vw 降至 6.5vw，並確保最小值夠小 */
+            font-size: clamp(1.6rem, 6.5vw, 3.5rem);
             margin-bottom: 2rem;
             line-height: 1.2;
+
+            /* 核心防護：禁止單字內斷行，塞不下就整字換行 */
             word-break: keep-all;
+            overflow-wrap: break-word;
+            hyphens: none;
+
+            /* 增加字母間距微調，確保大單字（TOGETHER）能排進去 */
+            letter-spacing: -0.02em;
         }
 
         .email-link {
             display: inline-block;
-            font-size: clamp(1.2rem, 4vw, 2rem);
+            /* 確保 Email 在手機版不會溢出 */
+            font-size: clamp(1rem, 4vw, 2rem);
             color: #fff;
             border-bottom: 2px solid rgba(255, 255, 255, 0.3);
             padding-bottom: 5px;
+            /* 防止長 Email 斷行 */
+            word-break: break-all;
         }
 
         .email-link:hover {
-            color: #ffb8a8;
-            border-color: #ffb8a8;
+            color: var(--accent-orange);
+            border-color: var(--accent-orange);
         }
 
         /* --- 手機版專屬修正 --- */
@@ -496,7 +672,21 @@
             #home,
             #projects,
             #contact {
-                padding: 4rem 7%;
+                padding: 5rem 7%;
+                /* 稍微縮小內距，爭取水平空間 */
+                max-width: none;
+            }
+
+            .contact-content h2 {
+                /* 手機版強制限制字體，確保 TOGETHER 不會爆出去 */
+                font-size: clamp(1.4rem, 9vw, 2.2rem) !important;
+                letter-spacing: -0.04em;
+                /* 緊縮字距 */
+            }
+
+            /* 修正點：隱藏 <br> 讓文字在窄螢幕自由流動 */
+            .contact-content h2 br {
+                display: none;
             }
 
             /* 顯示漢堡選單 */
@@ -573,7 +763,11 @@
 </head>
 
 <body>
+
     <div class="blobs">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
         <div class="blob"></div>
         <div class="blob"></div>
         <div class="blob"></div>
@@ -582,12 +776,7 @@
 
     <nav>
         <div class="logo uppercase">SUN YI CHING</div>
-        <div class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="nav-links uppercase" id="nav-menu">
+        <div class="nav-links uppercase">
             <a href="#about">About</a>
             <a href="#featured">Featured</a>
             <a href="#projects">Works</a>
@@ -596,7 +785,9 @@
     </nav>
 
     <header id="home">
-        <h1 class="hero-title uppercase">Design As<br>Communication</h1>
+        <h1 class="hero-title uppercase">
+            Design As<br>Communication
+        </h1>
         <div class="hero-subtitle">
             <h3 class="uppercase" style="color: var(--text-main);">Problem Solving</h3>
             <p style="margin: 0.5rem 0 0;">好的設計不僅是為了美觀，更是為了解決問題。</p>
@@ -604,11 +795,17 @@
     </header>
 
     <section id="about">
-        <div class="section-label uppercase">讓創意在細節中發光</div>
+        <div class="section-label shine-effect" data-text="讓創意在細節中發光">
+            讓創意在細節中發光
+        </div>
         <div class="about-content">
             <h3>Bridging Strategy & Aesthetics.</h3>
             <p>從概念到執行，結合創意與邏輯，打造有影響力的內容，讓每個設計與策略都直達目標。</p>
-            <p>我是一名數位行銷人，也是視覺設計師。我擅長運用數據洞察制定策略，並透過設計語言將其轉化為具體的視覺成果。</p>
+            <p>
+                我是一名數位行銷人，也是視覺設計師。我擅長運用數據洞察制定策略，並透過設計語言將其轉化為具體的視覺成果。
+            </p>
+            <p> 在這個資訊爆炸的時代，我相信「清晰」與「連結」是品牌最寶貴的資產。
+            </p>
             <div class="skill-tags uppercase">
                 <span class="tag">Brand Strategy</span>
                 <span class="tag">Visual Identity</span>
@@ -618,144 +815,153 @@
         </div>
     </section>
 
-    <section id="featured" class="section-padding">
-        <div class="grid-focus">
-            <div>
-                <h2 class="uppercase" style="font-size: 2rem; margin-bottom: 1rem;">Focus On</h2>
-                <p style="color: #666; margin: 0;">Bridging Strategy & Aesthetics.</p>
+    <section class="section-padding">
+        <section id="featured" class="section-padding">
+            <div class="grid-focus">
+                <div>
+                    <h2 class="uppercase" style="font-size: 2rem; margin-bottom: 1rem;">Focus On</h2>
+                    <p style="color: #666; margin: 0;">Bridging Strategy & Aesthetics.</p>
+                </div>
+
+                <div class="focus-list">
+                    <div class="item" onclick="toggleItem(this)">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="uppercase">Strategy</h3>
+                                <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">策略思維</span>
+                            </div>
+                            <span class="plus-icon">+</span>
+                        </div>
+                        <div class="item-desc">
+                            <p>將專案管理的嚴謹邏輯，轉化為行銷執行的精準度，確保每一分預算都能創造最大價值。</p>
+                        </div>
+                    </div>
+
+                    <div class="item" onclick="toggleItem(this)">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="uppercase">Design</h3>
+                                <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">設計整合</span>
+                            </div>
+                            <span class="plus-icon">+</span>
+                        </div>
+                        <div class="item-desc">
+                            <p>超越單純美學的商業設計，讓視覺為品牌說故事，成為推動行銷漏斗的關鍵動力。</p>
+                        </div>
+                    </div>
+
+                    <div class="item" onclick="toggleItem(this)">
+                        <div class="item-header">
+                            <div>
+                                <h3 class="uppercase">Brand Communication</h3>
+                                <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">品牌溝通</span>
+                            </div>
+                            <span class="plus-icon">+</span>
+                        </div>
+                        <div class="item-desc">
+                            <p>構建一致且具說服力的品牌敘事，整合內容企劃與廣告訊息，建立品牌與受眾之間的深層連結與信任感。</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="focus-list">
-                <div class="item" onclick="toggleItem(this)">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="uppercase">Strategy</h3>
-                            <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">策略思維</span>
-                        </div>
-                        <span class="plus-icon">+</span>
-                    </div>
-                    <div class="item-desc">
-                        <p>將專案管理的嚴謹邏輯，轉化為行銷執行的精準度，確保每一分預算都能創造最大價值。</p>
-                    </div>
-                </div>
+        </section>
 
-                <div class="item" onclick="toggleItem(this)">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="uppercase">Design</h3>
-                            <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">設計整合</span>
-                        </div>
-                        <span class="plus-icon">+</span>
-                    </div>
-                    <div class="item-desc">
-                        <p>超越單純美學的商業設計，讓視覺為品牌說故事，成為推動行銷漏斗的關鍵動力。</p>
-                    </div>
-                </div>
+        <section id="projects">
+            <h2 class="uppercase" style="border-bottom: 2px solid #000; padding-bottom: 1rem;">Selected Works</h2>
 
-                <div class="item" onclick="toggleItem(this)">
-                    <div class="item-header">
-                        <div>
-                            <h3 class="uppercase">Brand Communication</h3>
-                            <span style="font-size: 0.9rem; color:#888; display:block; margin-top:5px;">品牌溝通</span>
-                        </div>
-                        <span class="plus-icon">+</span>
+            <div class="grid-container">
+                <a href="social-detail.html" class="project-link">
+                    <div class="img-holder" style="background: #fdf2f2;">
+                        <div
+                            style="padding: 2rem; font-size: 0.8rem; color: #FF6B4A; display: flex; height: 100%; align-items: center; justify-content: center;">
+                            SOCIAL MEDIA THUMBNAIL</div>
                     </div>
-                    <div class="item-desc">
-                        <p>構建一致且具說服力的品牌敘事，整合內容企劃與廣告訊息，建立品牌與受眾之間的深層連結與信任感。</p>
+                    <h4 class="uppercase">社群行銷策略</h4>
+                    <p style="font-size: 0.8rem; color: #777;">短影音企劃 / IG視覺排版 / 內容策略</p>
+                </a>
+
+                <a href="Commercial Advertising.html" class="project-link">
+                    <div class="img-holder" style="background: #eee;">
+                        <div
+                            style="padding: 2rem; font-size: 0.8rem; color: #555; display: flex; height: 100%; align-items: center; justify-content: center;">
+                            COMMERCIAL AD THUMBNAIL</div>
                     </div>
-                </div>
+                    <h4 class="uppercase">商業視覺設計</h4>
+                    <p style="font-size: 0.8rem; color: #777;">戶外廣告燈箱 / 視覺廣告 / 印刷物設計</p>
+                </a>
+
+                <a href="branding-detail.html" class="project-link">
+                    <div class="img-holder" style="background: #2C2A29;">
+                        <div
+                            style="padding: 2rem; font-size: 0.8rem; color: #C1A376; display: flex; height: 100%; align-items: center; justify-content: center;">
+                            BRANDING THUMBNAIL</div>
+                    </div>
+                    <h4 class="uppercase">品牌識別系統</h4>
+                    <p style="font-size: 0.8rem; color: #777;">Logo 設計 / CIS 規範 / 品牌轉型規劃</p>
+                </a>
+
+                <a href="exhibition-detail.html" class="project-link">
+                    <div class="img-holder" style="background: #fff; border: 1px solid #ddd;">
+                        <div
+                            style="padding: 2rem; font-size: 0.8rem; color: #999; display: flex; height: 100%; align-items: center; justify-content: center;">
+                            OTHERS THUMBNAIL</div>
+                    </div>
+                    <h4 class="uppercase">其他創意專案</h4>
+                    <p style="font-size: 0.8rem; color: #777;">品牌行銷 / 公關策略 / 行銷活動 </p>
+                </a>
             </div>
-        </div>
-    </section>
+        </section>
 
+        <section id="contact">
+            <div class="contact-content">
+                <p class="uppercase" style="letter-spacing: 0.2rem; opacity: 0.7;">Get in Touch</p>
+                <h2 style="font-size: 3rem; margin-bottom: 2rem; line-height: 1.2;" class="uppercase">
+                    Have an idea?<br>Let's build it together.
+                </h2>
 
-    <section id="projects">
-        <h2 class="uppercase" style="border-bottom: 2px solid #000; padding-bottom: 1rem;">Selected Works</h2>
+                <a href="mailto:ycsun2023@gmail.com" class="email-link">ycsun2023@gmail.com</a>
 
-        <div class="grid-container">
-            <a href="social-detail.html" class="project-link">
-                <div class="img-holder" style="background: #fdf2f2;">
-                    <div
-                        style="padding: 2rem; font-size: 0.8rem; color: #FF6B4A; display: flex; height: 100%; align-items: center; justify-content: center;">
-                        SOCIAL MEDIA THUMBNAIL</div>
+                <div style="margin-top: 4rem; display: flex; gap: 2rem; font-size: 0.9rem; opacity: 0.6;"
+                    class="uppercase">
                 </div>
-                <h4 class="uppercase">社群行銷策略</h4>
-                <p style="font-size: 0.8rem; color: #777;">短影音企劃 / IG視覺排版 / 內容策略</p>
-            </a>
 
-            <a href="Commercial Advertising.html" class="project-link">
-                <div class="img-holder" style="background: #eee;">
-                    <div
-                        style="padding: 2rem; font-size: 0.8rem; color: #555; display: flex; height: 100%; align-items: center; justify-content: center;">
-                        COMMERCIAL AD THUMBNAIL</div>
-                </div>
-                <h4 class="uppercase">商業視覺設計</h4>
-                <p style="font-size: 0.8rem; color: #777;">戶外廣告燈箱 / 視覺廣告 / 印刷物設計</p>
-            </a>
+                <p style="margin-top: 4rem; font-size: 0.8rem; opacity: 0.3;">
+                    © 2025 PORTFOLIO. DESIGNED & CODED BY SUN YI CHING.
+                </p>
+            </div>
+        </section>
 
-            <a href="branding-detail.html" class="project-link">
-                <div class="img-holder" style="background: #2C2A29;">
-                    <div
-                        style="padding: 2rem; font-size: 0.8rem; color: #C1A376; display: flex; height: 100%; align-items: center; justify-content: center;">
-                        BRANDING THUMBNAIL</div>
-                </div>
-                <h4 class="uppercase">品牌識別系統</h4>
-                <p style="font-size: 0.8rem; color: #777;">Logo 設計 / CIS 規範 / 品牌轉型規劃</p>
-            </a>
+        <script>
+            // 切換摺疊項目
+            function toggleItem(element) {
+                const allItems = document.querySelectorAll('.focus-list .item');
+                allItems.forEach(item => {
+                    if (item !== element) item.classList.remove('active');
+                });
+                element.classList.toggle('active');
+            }
 
-            <a href="exhibition-detail.html" class="project-link">
-                <div class="img-holder" style="background: #fff; border: 1px solid #ddd;">
-                    <div
-                        style="padding: 2rem; font-size: 0.8rem; color: #999; display: flex; height: 100%; align-items: center; justify-content: center;">
-                        OTHERS THUMBNAIL</div>
-                </div>
-                <h4 class="uppercase">其他創意專案</h4>
-                <p style="font-size: 0.8rem; color: #777;">品牌行銷 / 公關策略 / 行銷活動 </p>
-            </a>
-        </div>
-    </section>
+            // 更改點：新增手機版選單控制 JS
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
 
-
-    <section id="contact">
-        <div class="contact-content">
-            <p class="uppercase" style="letter-spacing: 0.2rem; opacity: 0.7;">Get in Touch</p>
-            <h2 class="uppercase">Have an idea?<br>Let's build it together.</h2>
-            <a href="mailto:ycsun2023@gmail.com" class="email-link">ycsun2023@gmail.com</a>
-            <p style="margin-top: 4rem; font-size: 0.8rem; opacity: 0.3;">
-                © 2026 PORTFOLIO. DESIGNED & CODED BY SUN YI CHING.
-            </p>
-        </div>
-    </section>
-
-    <script>
-        // 切換摺疊項目
-        function toggleItem(element) {
-            const allItems = document.querySelectorAll('.focus-list .item');
-            allItems.forEach(item => {
-                if (item !== element) item.classList.remove('active');
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('open');
+                navMenu.classList.toggle('active');
             });
-            element.classList.toggle('active');
-        }
 
-        // 更改點：新增手機版選單控制 JS
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navMenu = document.getElementById('nav-menu');
-
-        mobileMenu.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            navMenu.classList.toggle('active');
-        });
-
-        // 點擊連結後關閉選單
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
-                navMenu.classList.remove('active');
+            // 點擊連結後關閉選單
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                    navMenu.classList.remove('active');
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>
+
 
 
 
