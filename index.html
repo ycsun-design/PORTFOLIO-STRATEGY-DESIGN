@@ -195,7 +195,6 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-
         .logo {
             font-weight: 800;
             font-size: 1.2rem;
@@ -271,7 +270,6 @@
             color: inherit;
             transition: 0.3s;
         }
-
 
         /* Hero */
         #home {
@@ -350,8 +348,8 @@
 
             /* 核心對齊微調：
        若 Bridging... 比較高，請調小數值 (如 0.45)
-       若 中文 比較高，請調大數值 (如 0.6) 
-    */
+       若 中文 比較高，請調大數值 (如 0.6)
+     */
             margin-top: 15%;
 
             position: relative;
@@ -526,6 +524,14 @@
             background: rgba(255, 255, 255, 0.4);
         }
 
+        /* 🟡 新增：修改 Works 標題置中，並對齊卡片邊緣 */
+        .projects-title {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 1rem;
+            margin: 0 5%; /* 對齊下方 .grid-container 的 padding */
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -581,7 +587,7 @@
 
         /* Contact */
         #contact {
-            padding: 4rem 0 8rem;
+            padding: 4rem 0 0; /* 調整下方間距，讓它無縫接軌 footer */
             background: transparent;
         }
 
@@ -639,6 +645,20 @@
             border-color: var(--accent-orange);
         }
 
+        /* 底部滿版黃色版權區塊 */
+        .footer-copyright {
+            /* background-color: #D4FF00; 亮黃/螢光黃區域 */
+            color: #1A1A1A; /* 深色字體高對比 */
+            width: 100%;
+            text-align: center;
+            padding: 2.5rem 5%;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            position: relative;
+            z-index: 10;
+        }
+
         /* --- 手機版專屬修正 --- */
         @media (max-width: 1024px) {
 
@@ -652,11 +672,6 @@
         }
 
         @media (max-width: 768px) {
-
-            /* 修正點：取消手機版手動換行
-            .hero-title br {
-                display: none;
-            } */
 
             /* 修改點：手機版專屬優化 (字體下限調降、緊縮字距) */
             .hero-title {
@@ -675,6 +690,10 @@
                 padding: 5rem 7%;
                 /* 稍微縮小內距，爭取水平空間 */
                 max-width: none;
+            }
+
+            #contact {
+                padding-bottom: 0; /* 接續下方黃色區塊 */
             }
 
             .contact-content h2 {
@@ -734,9 +753,14 @@
                 gap: 2.5rem;
             }
 
-            /* 更改點：作品集改為單欄，解決擁擠問題 */
+            /* 更改點：作品集改為單欄，並對齊標題邊緣 */
             .grid-container {
                 grid-template-columns: 1fr;
+                padding: 0; /* 歸零 padding 讓卡片邊緣與螢幕邊距貼合 */
+            }
+            
+            .projects-title {
+                margin: 0; /* 歸零 margin 讓標題裝飾線與螢幕邊距貼合 */
             }
 
             .img-holder {
@@ -763,7 +787,6 @@
 </head>
 
 <body>
-
     <div class="blobs">
         <div class="blob"></div>
         <div class="blob"></div>
@@ -773,17 +796,20 @@
         <div class="blob"></div>
         <div class="blob"></div>
     </div>
-
     <nav>
         <div class="logo uppercase">SUN YI CHING</div>
-        <div class="nav-links uppercase">
+        <div class="nav-links uppercase" id="nav-menu">
             <a href="#about">About</a>
             <a href="#featured">Featured</a>
             <a href="#projects">Works</a>
             <a href="#contact">Contact</a>
         </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </nav>
-
     <header id="home">
         <h1 class="hero-title uppercase">
             Design As<br>Communication
@@ -793,7 +819,6 @@
             <p style="margin: 0.5rem 0 0;">好的設計不僅是為了美觀，更是為了解決問題。</p>
         </div>
     </header>
-
     <section id="about">
         <div class="section-label shine-effect" data-text="讓創意在細節中發光">
             讓創意在細節中發光
@@ -814,7 +839,6 @@
             </div>
         </div>
     </section>
-
     <section class="section-padding">
         <section id="featured" class="section-padding">
             <div class="grid-focus">
@@ -822,7 +846,6 @@
                     <h2 class="uppercase" style="font-size: 2rem; margin-bottom: 1rem;">Focus On</h2>
                     <p style="color: #666; margin: 0;">Bridging Strategy & Aesthetics.</p>
                 </div>
-
                 <div class="focus-list">
                     <div class="item" onclick="toggleItem(this)">
                         <div class="item-header">
@@ -836,7 +859,6 @@
                             <p>將專案管理的嚴謹邏輯，轉化為行銷執行的精準度，確保每一分預算都能創造最大價值。</p>
                         </div>
                     </div>
-
                     <div class="item" onclick="toggleItem(this)">
                         <div class="item-header">
                             <div>
@@ -849,7 +871,6 @@
                             <p>超越單純美學的商業設計，讓視覺為品牌說故事，成為推動行銷漏斗的關鍵動力。</p>
                         </div>
                     </div>
-
                     <div class="item" onclick="toggleItem(this)">
                         <div class="item-header">
                             <div>
@@ -865,10 +886,9 @@
                 </div>
             </div>
         </section>
-
         <section id="projects">
-            <h2 class="uppercase" style="border-bottom: 2px solid #000; padding-bottom: 1rem;">Selected Works</h2>
-
+            <h2 class="uppercase projects-title">Selected Works</h2>
+            
             <div class="grid-container">
                 <a href="social-detail.html" class="project-link">
                     <div class="img-holder" style="background: #fdf2f2;">
@@ -879,7 +899,6 @@
                     <h4 class="uppercase">社群行銷策略</h4>
                     <p style="font-size: 0.8rem; color: #777;">短影音企劃 / IG視覺排版 / 內容策略</p>
                 </a>
-
                 <a href="Commercial Advertising.html" class="project-link">
                     <div class="img-holder" style="background: #eee;">
                         <div
@@ -889,7 +908,6 @@
                     <h4 class="uppercase">商業視覺設計</h4>
                     <p style="font-size: 0.8rem; color: #777;">戶外廣告燈箱 / 視覺廣告 / 印刷物設計</p>
                 </a>
-
                 <a href="branding-detail.html" class="project-link">
                     <div class="img-holder" style="background: #2C2A29;">
                         <div
@@ -899,7 +917,6 @@
                     <h4 class="uppercase">品牌識別系統</h4>
                     <p style="font-size: 0.8rem; color: #777;">Logo 設計 / CIS 規範 / 品牌轉型規劃</p>
                 </a>
-
                 <a href="exhibition-detail.html" class="project-link">
                     <div class="img-holder" style="background: #fff; border: 1px solid #ddd;">
                         <div
@@ -911,59 +928,51 @@
                 </a>
             </div>
         </section>
-
         <section id="contact">
             <div class="contact-content">
                 <p class="uppercase" style="letter-spacing: 0.2rem; opacity: 0.7;">Get in Touch</p>
                 <h2 style="font-size: 3rem; margin-bottom: 2rem; line-height: 1.2;" class="uppercase">
                     Have an idea?<br>Let's build it together.
                 </h2>
-
                 <a href="mailto:ycsun2023@gmail.com" class="email-link">ycsun2023@gmail.com</a>
-
                 <div style="margin-top: 4rem; display: flex; gap: 2rem; font-size: 0.9rem; opacity: 0.6;"
                     class="uppercase">
                 </div>
-
-                <p style="margin-top: 4rem; font-size: 0.8rem; opacity: 0.3;">
-                    © 2025 PORTFOLIO. DESIGNED & CODED BY SUN YI CHING.
-                </p>
             </div>
         </section>
+    </section>
 
-        <script>
-            // 切換摺疊項目
-            function toggleItem(element) {
-                const allItems = document.querySelectorAll('.focus-list .item');
-                allItems.forEach(item => {
-                    if (item !== element) item.classList.remove('active');
-                });
-                element.classList.toggle('active');
-            }
+    <footer class="footer-copyright uppercase">
+        © 2025 PORTFOLIO DESIGNED & CODED BY SUN YI CHING.
+    </footer>
 
-            // 更改點：新增手機版選單控制 JS
-            const mobileMenu = document.getElementById('mobile-menu');
-            const navMenu = document.getElementById('nav-menu');
-
-            mobileMenu.addEventListener('click', () => {
-                mobileMenu.classList.toggle('open');
-                navMenu.classList.toggle('active');
+    <script>
+        // 切換摺疊項目
+        function toggleItem(element) {
+            const allItems = document.querySelectorAll('.focus-list .item');
+            allItems.forEach(item => {
+                if (item !== element) item.classList.remove('active');
             });
+            element.classList.toggle('active');
+        }
 
-            // 點擊連結後關閉選單
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('open');
-                    navMenu.classList.remove('active');
-                });
+        // 手機版選單控制 JS
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            navMenu.classList.toggle('active');
+        });
+
+        // 點擊連結後關閉選單
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                navMenu.classList.remove('active');
             });
-        </script>
+        });
+    </script>
 </body>
 
 </html>
-
-
-
-
-
-
